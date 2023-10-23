@@ -1,3 +1,4 @@
+const { supabase } = require('../index');
 const puppeteer = require('puppeteer');
 
 (async () => {

@@ -5,5 +5,6 @@ function findCountryConfig(selectedCountry) {
 }
 
 module.exports = {
+  countries,
   findCountryConfig,
 };

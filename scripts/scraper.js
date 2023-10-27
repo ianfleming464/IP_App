@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const configHandler = require('../configHandler'); // Import the configHandler module
+const dataExtractionHandler = require('../dataExtractionHandler'); // Import the dataExtractionHandler module
 
 (async () => {
   const browser = await puppeteer.launch();
@@ -26,85 +27,22 @@ const configHandler = require('../configHandler'); // Import the configHandler m
   );
 
   // Extract and log the Country
+
+  // Extract and log the Country using the dataExtractionHandler
   const countryHeadingXPath = '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[1]';
-  const countryElement = await page.$x(countryHeadingXPath);
-  let country = 'Country not found'; // Default value in case the heading is not found
-
-  if (countryElement.length > 0) {
-    country = await page.evaluate(element => element.textContent, countryElement[0]);
-  }
-
+  const country = await dataExtractionHandler.extractTextFromXPath(page, countryHeadingXPath);
   console.log('Country:', country);
 
   // Extract and log the Filing Requirements
+  // Extract and log the Filing Requirements using the dataExtractionHandler
   const filingRequirementsXPath =
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]';
-  const filingRequirementsElement = await page.$x(filingRequirementsXPath);
-  let filingRequirements = 'Filing Requirements not found'; // Default value
-
-  if (filingRequirementsElement.length > 0) {
-    filingRequirements = await page.evaluate(
-      element => element.textContent,
-      filingRequirementsElement[0],
-    );
-  }
-
+  const filingRequirements = await dataExtractionHandler.extractTextFromXPath(
+    page,
+    filingRequirementsXPath,
+  );
   console.log('Filing Requirements:', filingRequirements);
 
   // Close the browser
   await browser.close();
 })();
-
-// const configHandler = require('../configHandler');
-// const navigationHandler = require('../navigationHandler');
-// const dataExtractionHandler = require('../dataExtractionHandler');
-// const logHandler = require('../logHandler');
-
-// (async () => {
-//   const browser = await navigationHandler.launchBrowser();
-//   const page = await navigationHandler.openNewPage(browser);
-
-//   // Hard-coded values for testing
-//   const selectedCountry = 'USA';
-//   const selectedIPType = 'trademark';
-
-//   const selectedConfig = configHandler.findCountryConfig(selectedCountry);
-
-//   if (!selectedConfig) {
-//     logHandler.logMessage('Selected country not found in the configuration.');
-//     await browser.close();
-//     return;
-//   }
-
-//   navigationHandler.navigateToUrl(
-//     page,
-//     selectedIPType === 'trademark'
-//       ? selectedConfig.trademarkUrl
-//       : selectedConfig.industrialDesignUrl,
-//   );
-
-//   // Wait for an element to appear on the page before proceeding (e.g., the country heading)
-//   await page.waitForSelector(
-//     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/section[1]/div[1]/div[1]/h1',
-//     { timeout: 60000 },
-//   );
-
-//   const country = await dataExtractionHandler.extractTextFromXPath(
-//     page,
-//     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/section[1]/div[1]/div[1]/h1',
-//   );
-//   logHandler.logMessage('Country:', country);
-
-//   // Wait for another element to appear on the page (e.g., filing requirements)
-//   await page.waitForSelector(
-//     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]',
-//   );
-
-//   const filingRequirements = await dataExtractionHandler.extractTextFromXPath(
-//     page,
-//     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]',
-//   );
-//   logHandler.logMessage('Filing Requirements:', filingRequirements);
-
-//   await browser.close();
-// })();

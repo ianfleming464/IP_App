@@ -7,7 +7,7 @@ const dataExtractionHandler = require('../dataExtractionHandler'); // Import the
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'USA'; // target country
+  const selectedCountry = 'China'; // target country
   const selectedIPType = 'design'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
@@ -27,14 +27,11 @@ const dataExtractionHandler = require('../dataExtractionHandler'); // Import the
   );
 
   // Extract and log the Country
-
-  // Extract and log the Country using the dataExtractionHandler
   const countryHeadingXPath = '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[1]';
   const country = await dataExtractionHandler.extractTextFromXPath(page, countryHeadingXPath);
   console.log('Country:', country);
 
   // Extract and log the Filing Requirements
-  // Extract and log the Filing Requirements using the dataExtractionHandler
   const filingRequirementsXPath =
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]';
   const filingRequirements = await dataExtractionHandler.extractTextFromXPath(
@@ -42,6 +39,36 @@ const dataExtractionHandler = require('../dataExtractionHandler'); // Import the
     filingRequirementsXPath,
   );
   console.log('Filing Requirements:', filingRequirements);
+
+  const multipleClassXPath =
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]';
+  const multipleClass = await dataExtractionHandler.extractTextFromXPath(page, multipleClassXPath);
+  console.log('Multiple Class:', multipleClass);
+
+  const examinationInfoXPath =
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
+  const examinationInfo = await dataExtractionHandler.extractTextFromXPath(
+    page,
+    examinationInfoXPath,
+  );
+  console.log('Examination Info:', examinationInfo);
+
+  const grantFeeXPath = '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
+  const grantFee = await dataExtractionHandler.extractTextFromXPath(page, grantFeeXPath);
+  console.log('Grant Fee:', grantFee);
+
+  const validityTermXPath =
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
+  const validityTerm = await dataExtractionHandler.extractTextFromXPath(page, validityTermXPath);
+  console.log('Validity Term:', validityTerm);
+
+  const useRequirementXPath =
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]';
+  const useRequirement = await dataExtractionHandler.extractTextFromXPath(
+    page,
+    useRequirementXPath,
+  );
+  console.log('Use Requirement:', useRequirement);
 
   // Close the browser
   await browser.close();

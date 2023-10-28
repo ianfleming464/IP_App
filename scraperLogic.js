@@ -11,14 +11,15 @@ async function scrapeData(page) {
 
   // Extract and log the Filing Requirements
   const filingRequirementsXPath =
-    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]';
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]/span';
+
   scrapedData.filingRequirements = await dataExtractionHandler.extractTextFromXPath(
     page,
     filingRequirementsXPath,
   );
 
   const multipleClassXPath =
-    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]';
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]/span';
   scrapedData.multipleClass = await dataExtractionHandler.extractTextFromXPath(
     page,
     multipleClassXPath,

@@ -18,32 +18,36 @@ async function scrapeData(page) {
     filingRequirementsXPath,
   );
 
-  const multipleClassXPath =
+  const multipleClassOrDesignXPath =
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]/span';
-  scrapedData.multipleClass = await dataExtractionHandler.extractTextFromXPath(
+  scrapedData.multipleClassOrDesign = await dataExtractionHandler.extractTextFromXPath(
     page,
-    multipleClassXPath,
+    multipleClassOrDesignXPath,
   );
 
   const examinationInfoXPath =
-    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]/span';
   scrapedData.examinationInfo = await dataExtractionHandler.extractTextFromXPath(
     page,
     examinationInfoXPath,
   );
 
-  const grantFeeXPath = '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
-  scrapedData.grantFee = await dataExtractionHandler.extractTextFromXPath(page, grantFeeXPath);
+  const grantFeeValidityRenewalsXPath =
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[7]/span';
+  scrapedData.grantFeeValidityRenewalsXPath = await dataExtractionHandler.extractTextFromXPath(
+    page,
+    grantFeeValidityRenewalsXPath,
+  );
 
   const validityTermXPath =
-    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]';
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[7]/span';
   scrapedData.validityTerm = await dataExtractionHandler.extractTextFromXPath(
     page,
     validityTermXPath,
   );
 
   const useRequirementXPath =
-    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]';
+    '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]/span';
   scrapedData.useRequirement = await dataExtractionHandler.extractTextFromXPath(
     page,
     useRequirementXPath,

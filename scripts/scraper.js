@@ -49,11 +49,11 @@ async function scraper() {
 
     console.log('Country:', scrapedData.country);
     console.log('Filing Requirements:', scrapedData.filingRequirements);
-    console.log('Multiple Class:', scrapedData.multipleClass);
+    console.log('Multiple Class or Designs:', scrapedData.multipleClassOrDesign);
     // console.log('Examination Info:', scrapedData.examinationInfo);
-    // console.log('Grant Fee:', scrapedData.grantFee);
+    console.log('Grant Fee:', scrapedData.grantFeeValidityRenewals);
     // console.log('Validity Term:', scrapedData.validityTerm);
-    // console.log('Use Requirement:', scrapedData.useRequirement);
+    console.log('Use Requirement:', scrapedData.useRequirement);
   } catch (error) {
     console.error('Error while scraping:', error);
   }

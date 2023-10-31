@@ -56,6 +56,15 @@ async function scrapeData(page) {
   return scrapedData;
 }
 
+async function scrapeTrademarkData(page) {
+  const scrapedTrademarkData = {};
+}
+
+async function scrapeIndustrialDesignData(page) {
+  const scrapedIndustrialDesignData = {};
+}
+
 module.exports = {
-  scrapeData,
+  scrapeTrademarkData,
+  scrapeIndustrialDesignData,
 };

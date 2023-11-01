@@ -60,3 +60,7 @@ async function scrapeTrademarkData(page) {
 module.exports = {
   scrapeTrademarkData,
 };
+
+// Functioning theoretically, but to do: I need to implement conditional Xpath statements to account for the different formats of the pages.
+// check notebook for discrepancies in the test countries, and ChatGPT for the skeleton approach.
+// Then, time to insert into the relevant TM table in Supabase, and move on to ID for the 5 test countries.

@@ -1,10 +1,17 @@
 const dataExtractionHandler = require('./dataExtractionHandler');
+const configHandler = require('./configHandler');
 
-async function scrapeTrademarkData(page) {
+async function scrapeTrademarkData(page, selectedCountry) {
   const scrapedTrademarkData = {};
+  const selectedConfig = configHandler.findCountryConfig(selectedCountry);
+
+  if (!selectedConfig) {
+    throw new Error('Selected country not found in the configuration.');
+  }
 
   // Extract the Multiple Class info
   const multipleClassXPath =
+    selectedConfig.xPaths.multipleClass ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]';
   scrapedTrademarkData.multipleClass = await dataExtractionHandler.extractTextFromXPath(
     page,
@@ -13,6 +20,7 @@ async function scrapeTrademarkData(page) {
 
   // Extract the Filing Requirements
   const filingRequirementsXPath =
+    selectedConfig.xPaths.filingRequirements ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]/span';
   scrapedTrademarkData.filingRequirements = await dataExtractionHandler.extractTextFromXPath(
     page,
@@ -21,12 +29,14 @@ async function scrapeTrademarkData(page) {
 
   // Extract the Examination/Publication/Opposition info
   const examinationPublicationOppositionXPath =
+    selectedConfig.xPaths.examinationPublicationOpposition ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[6]/span';
   scrapedTrademarkData.examinationPublicationOpposition =
     await dataExtractionHandler.extractTextFromXPath(page, examinationPublicationOppositionXPath);
 
   // Extract the Grant/Validity/Renewal info
   const grantValidityRenewalXPath =
+    selectedConfig.xPaths.grantValidityRenewal ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[7]';
   scrapedTrademarkData.grantValidityRenewal = await dataExtractionHandler.extractTextFromXPath(
     page,
@@ -35,6 +45,7 @@ async function scrapeTrademarkData(page) {
 
   // Extract the Use Requirement info
   const useRequirementXPath =
+    selectedConfig.xPaths.useRequirement ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]/span';
   scrapedTrademarkData.useRequirement = await dataExtractionHandler.extractTextFromXPath(
     page,
@@ -43,6 +54,7 @@ async function scrapeTrademarkData(page) {
 
   // Extract the Duration of Registration Period info
   const durationRegistrationPeriodXPath =
+    selectedConfig.xPaths.durationRegistrationPeriod ||
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]';
   scrapedTrademarkData.durationRegistrationPeriod =
     await dataExtractionHandler.extractTextFromXPath(page, durationRegistrationPeriodXPath);
@@ -53,7 +65,3 @@ async function scrapeTrademarkData(page) {
 module.exports = {
   scrapeTrademarkData,
 };
-
-// Functioning theoretically, but to do: I need to implement conditional Xpath statements to account for the different formats of the pages.
-// check notebook for discrepancies in the test countries, and ChatGPT for the skeleton approach.
-// Then, time to insert into the relevant TM table in Supabase, and move on to ID for the 5 test countries.

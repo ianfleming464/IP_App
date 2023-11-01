@@ -31,34 +31,20 @@ async function scraper() {
     // Use the scraperLogic to scrape data
     const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(page);
 
-    // const { error } = await supabase.from('ip-info').insert({
-    //   country: scrapedData.country,
-    //   validity_term: scrapedData.validityTerm,
-    //   filing_requirements: scrapedData.filingRequirements,
-    //   examination_info: scrapedData.examinationInfo,
-    //   grant_fee: scrapedData.grantFee,
-    //   use_requirement: scrapedData.useRequirement,
-    //   multiple_available: scrapedData.multipleClass,
-    //   'last_time_scraped':
-    // });
-    // console.log(error);
-    // if (error) {
-    //   throw error;
-    // }
     // Log the scraped data
 
-    console.log('Country: ', scrapedTrademarkData.country);
-    console.log('Multiple Class: ', scrapedTrademarkData.multipleClass);
-    console.log('Filing Requirements: ', scrapedTrademarkData.filingRequirements);
+    console.log('Country: ', selectedCountry);
+    console.log('Multiple Class: ', scrapedTrademarkData.multipleClass.trim());
+    console.log('Filing Requirements: ', scrapedTrademarkData.filingRequirements.trim());
     console.log(
       'Examination/Publication/Opposition Info: ',
-      scrapedTrademarkData.examinationPublicationOpposition,
+      scrapedTrademarkData.examinationPublicationOpposition.trim(),
     );
-    console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal);
-    console.log('Use Requirement: ', scrapedTrademarkData.useRequirement);
+    console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal.trim());
+    console.log('Use Requirement: ', scrapedTrademarkData.useRequirement.trim());
     console.log(
       'Duration of the registration period: ',
-      scrapedTrademarkData.durationRegistrationPeriod,
+      scrapedTrademarkData.durationRegistrationPeriod.trim(),
     );
   } catch (error) {
     console.error('Error while scraping: ', error);
@@ -69,3 +55,18 @@ async function scraper() {
 }
 
 scraper();
+
+// const { error } = await supabase.from('ip-info').insert({
+//   country: scrapedData.country,
+//   validity_term: scrapedData.validityTerm,
+//   filing_requirements: scrapedData.filingRequirements,
+//   examination_info: scrapedData.examinationInfo,
+//   grant_fee: scrapedData.grantFee,
+//   use_requirement: scrapedData.useRequirement,
+//   multiple_available: scrapedData.multipleClass,
+//   'last_time_scraped':
+// });
+// console.log(error);
+// if (error) {
+//   throw error;
+// }

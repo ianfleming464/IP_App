@@ -3,13 +3,6 @@ const dataExtractionHandler = require('./dataExtractionHandler');
 async function scrapeTrademarkData(page) {
   const scrapedTrademarkData = {};
 
-  // Extract the Country name
-  const countryHeadingXPath = '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[1]';
-  scrapedTrademarkData.country = await dataExtractionHandler.extractTextFromXPath(
-    page,
-    countryHeadingXPath,
-  );
-
   // Extract the Multiple Class info
   const multipleClassXPath =
     '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]';

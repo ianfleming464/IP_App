@@ -8,7 +8,7 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'China'; // target country
+  const selectedCountry = 'United Kingdom'; // target country
   const selectedIPType = 'trademark'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
@@ -29,17 +29,17 @@ async function scraper() {
 
   try {
     // Use the scraperLogic to scrape data
-    const scrapedData = await scraperLogic.scrapeData(page);
+    const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(page);
 
     // const { error } = await supabase.from('ip-info').insert({
     //   country: scrapedData.country,
-    //   // validity_term: scrapedData.validityTerm,
+    //   validity_term: scrapedData.validityTerm,
     //   filing_requirements: scrapedData.filingRequirements,
-    //   // examination_info: scrapedData.examinationInfo,
-    //   // grant_fee: scrapedData.grantFee,
+    //   examination_info: scrapedData.examinationInfo,
+    //   grant_fee: scrapedData.grantFee,
     //   use_requirement: scrapedData.useRequirement,
     //   multiple_available: scrapedData.multipleClass,
-    //   // 'last_time_scraped':
+    //   'last_time_scraped':
     // });
     // console.log(error);
     // if (error) {
@@ -47,15 +47,21 @@ async function scraper() {
     // }
     // Log the scraped data
 
-    console.log('Country:', scrapedData.country);
-    console.log('Filing Requirements:', scrapedData.filingRequirements);
-    console.log('Multiple Class or Designs:', scrapedData.multipleClassOrDesign);
-    // console.log('Examination Info:', scrapedData.examinationInfo);
-    console.log('Grant Fee:', scrapedData.grantFeeValidityRenewals);
-    // console.log('Validity Term:', scrapedData.validityTerm);
-    console.log('Use Requirement:', scrapedData.useRequirement);
+    console.log('Country: ', scrapedTrademarkData.country);
+    console.log('Multiple Class: ', scrapedTrademarkData.multipleClass);
+    console.log('Filing Requirements: ', scrapedTrademarkData.filingRequirements);
+    console.log(
+      'Examination/Publication/Opposition Info: ',
+      scrapedTrademarkData.examinationPublicationOpposition,
+    );
+    console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal);
+    console.log('Use Requirement: ', scrapedTrademarkData.useRequirement);
+    console.log(
+      'Duration of the registration period: ',
+      scrapedTrademarkData.durationRegistrationPeriod,
+    );
   } catch (error) {
-    console.error('Error while scraping:', error);
+    console.error('Error while scraping: ', error);
   }
 
   // Close the browser

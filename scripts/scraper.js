@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
-const configHandler = require('../configHandler'); // Import the configHandler module
-const scraperLogic = require('../scraperLogic'); // Import your scraping logic
+const configHandler = require('../configHandler');
+const scraperLogic = require('../scraperLogic');
 const { supabase } = require('../index');
 
 async function scraper() {
@@ -29,7 +29,11 @@ async function scraper() {
 
   try {
     // Use the scraperLogic to scrape data
-    const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(page, selectedCountry);
+    const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
+      page,
+      selectedCountry,
+      selectedConfig,
+    );
 
     // Log the scraped data
 
@@ -48,10 +52,10 @@ async function scraper() {
     );
   } catch (error) {
     console.error('Error while scraping: ', error);
+  } finally {
+    // Close the browser
+    await browser.close();
   }
-
-  // Close the browser
-  await browser.close();
 }
 
 scraper();

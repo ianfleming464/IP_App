@@ -1,13 +1,7 @@
 const dataExtractionHandler = require('./dataExtractionHandler');
-const configHandler = require('./configHandler');
 
-async function scrapeTrademarkData(page, selectedCountry) {
+async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
   const scrapedTrademarkData = {};
-  const selectedConfig = configHandler.findCountryConfig(selectedCountry);
-
-  if (!selectedConfig) {
-    throw new Error('Selected country not found in the configuration.');
-  }
 
   // Extract the Multiple Class info
   const multipleClassXPath =

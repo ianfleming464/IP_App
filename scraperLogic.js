@@ -73,7 +73,7 @@ async function scrapeIndustrialDesignData(page, selectedCountry, selectedConfig)
     multipleDesigns: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]/span',
     filingRequirements:
       '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]/span',
-    examination: '/html/body/form/div[6]/div[3]/div/div/2]/div[1]/div[1]/div/div[3]/p[7]/span',
+    examination: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[7]',
     noveltyGracePeriod: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]',
     grantValidityMaintenance:
       '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]/span',

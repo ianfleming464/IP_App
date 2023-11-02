@@ -8,8 +8,8 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'China'; // target country
-  const selectedIPType = 'design'; // design or trademark
+  const selectedCountry = 'United Kingdom'; // target country
+  const selectedIPType = 'trademark'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
   const selectedConfig = configHandler.findCountryConfig(selectedCountry);
@@ -68,9 +68,9 @@ async function scraper() {
       );
 
       // Handle any errors during extraction or insertion
-      if (error) {
-        throw error;
-      }
+      // if (error) {
+      //   throw error;
+      // }
     } else {
       const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
         page,

@@ -8,7 +8,7 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'China'; // target country
+  const selectedCountry = 'USA'; // target country
   const selectedIPType = 'industrial design'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
@@ -28,12 +28,15 @@ async function scraper() {
   );
 
   try {
-    if (selectedIPType === 'design') {
+    if (selectedIPType === 'industrial design') {
       const scrapedDesignData = await scraperLogic.scrapeIndustrialDesignData(
         page,
         selectedCountry,
         selectedConfig,
       );
+
+      // DESIGN LOGIC **********************************************************************************************************************
+      // ***********************************************************************************************************************************
 
       // Add scraped design data to the database
       // const { error, data } = await supabase.from('design-info').upsert(
@@ -66,11 +69,6 @@ async function scraper() {
         'Duration of the Registration Period: ',
         scrapedDesignData.durationRegistrationPeriod.trim(),
       );
-
-      // Handle any errors during extraction or insertion
-      // if (error) {
-      //   throw error;
-      // }
     } else {
       const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
         page,
@@ -78,6 +76,8 @@ async function scraper() {
         selectedConfig,
       );
 
+      // TRADEMARK LOGIC *******************************************************************************************************************
+      // ***********************************************************************************************************************************
       // Add scraped trademark data to the database
       // const { error, data } = await supabase.from('trademark-info').upsert(
       //   [

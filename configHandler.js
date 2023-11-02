@@ -1,7 +1,9 @@
 const countries = require('./config/countries');
 
 function findCountryConfig(selectedCountry) {
-  return countries.find(country => country.name === selectedCountry);
+  const selectedConfig = countries.find(country => country.name === selectedCountry);
+  console.log('Selected Config:', selectedConfig);
+  return selectedConfig;
 }
 
 module.exports = {

@@ -8,7 +8,7 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'USA'; // target country
+  const selectedCountry = 'Switzerland'; // target country
   const selectedIPType = 'trademark'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
@@ -28,7 +28,6 @@ async function scraper() {
   );
 
   try {
-    // Use the scraperLogic to scrape data
     const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
       page,
       selectedCountry,
@@ -46,31 +45,17 @@ async function scraper() {
     );
     console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal.trim());
     console.log('Use Requirement: ', scrapedTrademarkData.useRequirement.trim());
-    console.log(
-      'Duration of the registration period: ',
-      scrapedTrademarkData.durationRegistrationPeriod.trim(),
-    );
+    selectedCountry === 'Switzerland'
+      ? console.log('Use Requirement: Not applicable')
+      : console.log(
+          'Duration of the registration period: ',
+          scrapedTrademarkData.durationRegistrationPeriod.trim(),
+        );
   } catch (error) {
     console.error('Error while scraping: ', error);
   } finally {
-    // Close the browser
     await browser.close();
   }
 }
 
 scraper();
-
-// const { error } = await supabase.from('ip-info').insert({
-//   country: scrapedData.country,
-//   validity_term: scrapedData.validityTerm,
-//   filing_requirements: scrapedData.filingRequirements,
-//   examination_info: scrapedData.examinationInfo,
-//   grant_fee: scrapedData.grantFee,
-//   use_requirement: scrapedData.useRequirement,
-//   multiple_available: scrapedData.multipleClass,
-//   'last_time_scraped':
-// });
-// console.log(error);
-// if (error) {
-//   throw error;
-// }

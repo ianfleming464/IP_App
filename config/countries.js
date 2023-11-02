@@ -30,6 +30,11 @@ const countries = [
     name: 'Switzerland',
     trademarkUrl: 'https://www.ip-coster.com/IPGuides/trademark-switzerland',
     industrialDesignUrl: 'https://www.ip-coster.com/IPGuides/industrial-design-switzerland',
+    xPaths: {
+      filingRequirements:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
+      useRequirement: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
+    },
   },
   {
     name: 'United Kingdom',

@@ -8,8 +8,8 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'United Kingdom'; // target country
-  const selectedIPType = 'trademark'; // design or trademark
+  const selectedCountry = 'China'; // target country
+  const selectedIPType = 'industrial design'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
   const selectedConfig = configHandler.findCountryConfig(selectedCountry);
@@ -79,31 +79,31 @@ async function scraper() {
       );
 
       // Add scraped trademark data to the database
-      const { error, data } = await supabase.from('trademark-info').upsert(
-        [
-          {
-            country: selectedCountry,
-            multiple_class_available: scrapedTrademarkData.multipleClass,
-            filing_requirements: scrapedTrademarkData.filingRequirements,
-            examination_publication_opposition:
-              scrapedTrademarkData.examinationPublicationOpposition,
-            grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
-            use_requirement: scrapedTrademarkData.useRequirement,
-            duration_registration_period:
-              selectedCountry === 'Switzerland'
-                ? 'Not applicable'
-                : scrapedTrademarkData.durationRegistrationPeriod,
-            last_time_scraped: new Date(),
-          },
-        ],
-        { onConflict: ['country'] },
-      );
+      // const { error, data } = await supabase.from('trademark-info').upsert(
+      //   [
+      //     {
+      //       country: selectedCountry,
+      //       multiple_class_available: scrapedTrademarkData.multipleClass,
+      //       filing_requirements: scrapedTrademarkData.filingRequirements,
+      //       examination_publication_opposition:
+      //         scrapedTrademarkData.examinationPublicationOpposition,
+      //       grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
+      //       use_requirement: scrapedTrademarkData.useRequirement,
+      //       duration_registration_period:
+      //         selectedCountry === 'Switzerland'
+      //           ? 'Not applicable'
+      //           : scrapedTrademarkData.durationRegistrationPeriod,
+      //       last_time_scraped: new Date(),
+      //     },
+      //   ],
+      //   { onConflict: ['country'] },
+      // );
 
-      console.log(error);
+      // console.log(error);
 
-      if (error) {
-        throw error;
-      }
+      // if (error) {
+      //   throw error;
+      // }
 
       // Log the scraped trademark data
       console.log('Country: ', selectedCountry);

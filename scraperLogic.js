@@ -1,9 +1,17 @@
 const dataExtractionHandler = require('./dataExtractionHandler');
 
+/**
+ * Scrapes trademark data from a web page.
+ * @param {Page} page - The Puppeteer page to scrape data from.
+ * @param {string} selectedCountry - The selected country for scraping.
+ * @param {object} selectedConfig - The selected country's configuration.
+ * @returns {object} - The scraped trademark data.
+ */
+
 async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
   const scrapedTrademarkData = {};
 
-  // defining the default trademark xpaths
+  // Default trademark xpaths
   const defaultTrademarkXPaths = {
     multipleClass: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]/span',
     filingRequirements:
@@ -16,7 +24,7 @@ async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
       '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]',
   };
 
-  const trademarkXPaths = { ...defaultTrademarkXPaths, ...(selectedConfig.xPaths || {}) }; // merge the default xpaths with the country specific xpaths
+  const trademarkXPaths = { ...defaultTrademarkXPaths, ...(selectedConfig.xPaths || {}) }; // merging the default xpaths with the country-specific xpaths
 
   // extract multipleClass
 
@@ -65,10 +73,18 @@ async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
   return scrapedTrademarkData;
 }
 
+/**
+ * Scrapes industrial design data from a web page.
+ * @param {Page} page - The Puppeteer page to scrape data from.
+ * @param {string} selectedCountry - The selected country for scraping.
+ * @param {object} selectedConfig - The selected country's configuration.
+ * @returns {object} - The scraped industrial design data.
+ */
+
 async function scrapeIndustrialDesignData(page, selectedCountry, selectedConfig) {
   const scrapedIndustrialDesignData = {};
 
-  // Define the default industrial design XPaths
+  // Default industrial design XPaths
   const defaultIndustrialDesignXPaths = {
     multipleDesigns: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[2]/span',
     filingRequirements:

@@ -34,6 +34,32 @@ async function scraper() {
       selectedConfig,
     );
 
+    // Add scraped data to the database
+    const { error, data } = await supabase.from('trademark-info').upsert(
+      [
+        {
+          country: selectedCountry,
+          multiple_class_available: scrapedTrademarkData.multipleClass,
+          filing_requirements: scrapedTrademarkData.filingRequirements,
+          examination_publication_opposition: scrapedTrademarkData.examinationPublicationOpposition,
+          grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
+          use_requirement: scrapedTrademarkData.useRequirement,
+          duration_registration_period:
+            selectedCountry === 'Switzerland'
+              ? 'Not applicable'
+              : scrapedTrademarkData.durationRegistrationPeriod,
+          last_time_scraped: new Date(),
+        },
+      ],
+      { onConflict: ['country'] },
+    );
+
+    console.log(error);
+
+    if (error) {
+      throw error;
+    }
+
     // Log the scraped data
 
     console.log('Country: ', selectedCountry);
@@ -46,7 +72,7 @@ async function scraper() {
     console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal.trim());
     console.log('Use Requirement: ', scrapedTrademarkData.useRequirement.trim());
     selectedCountry === 'Switzerland'
-      ? console.log('Use Requirement: Not applicable')
+      ? console.log('Duration of the registration period: Not applicable')
       : console.log(
           'Duration of the registration period: ',
           scrapedTrademarkData.durationRegistrationPeriod.trim(),

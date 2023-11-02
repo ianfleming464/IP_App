@@ -8,8 +8,8 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'Switzerland'; // target country
-  const selectedIPType = 'trademark'; // design or trademark
+  const selectedCountry = 'China'; // target country
+  const selectedIPType = 'design'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
   const selectedConfig = configHandler.findCountryConfig(selectedCountry);
@@ -28,55 +28,103 @@ async function scraper() {
   );
 
   try {
-    const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
-      page,
-      selectedCountry,
-      selectedConfig,
-    );
+    if (selectedIPType === 'design') {
+      const scrapedDesignData = await scraperLogic.scrapeIndustrialDesignData(
+        page,
+        selectedCountry,
+        selectedConfig,
+      );
 
-    // Add scraped data to the database
-    const { error, data } = await supabase.from('trademark-info').upsert(
-      [
-        {
-          country: selectedCountry,
-          multiple_class_available: scrapedTrademarkData.multipleClass,
-          filing_requirements: scrapedTrademarkData.filingRequirements,
-          examination_publication_opposition: scrapedTrademarkData.examinationPublicationOpposition,
-          grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
-          use_requirement: scrapedTrademarkData.useRequirement,
-          duration_registration_period:
-            selectedCountry === 'Switzerland'
-              ? 'Not applicable'
-              : scrapedTrademarkData.durationRegistrationPeriod,
-          last_time_scraped: new Date(),
-        },
-      ],
-      { onConflict: ['country'] },
-    );
+      // Add scraped design data to the database
+      // const { error, data } = await supabase.from('design-info').upsert(
+      //   [
+      //     {
+      //       country: selectedCountry,
+      //       multiple_designs: scrapedDesignData.multipleDesigns,
+      //       filing_requirements: scrapedDesignData.filingRequirements,
+      //       examination: scrapedDesignData.examination,
+      //       novelty_grace_period: scrapedDesignData.noveltyGracePeriod,
+      //       grant_validity_maintenance: scrapedDesignData.grantValidityMaintenance,
+      //       duration_registration_period: scrapedDesignData.durationRegistrationPeriod,
+      //       last_time_scraped: new Date(),
+      //     },
+      //   ],
+      //   { onConflict: ['country'] },
+      // );
 
-    console.log(error);
+      // Log the scraped design data
+      console.log('Country: ', selectedCountry);
+      console.log('Multiple Designs: ', scrapedDesignData.multipleDesigns.trim());
+      console.log('Filing Requirements: ', scrapedDesignData.filingRequirements.trim());
+      console.log('Examination: ', scrapedDesignData.examination.trim());
+      console.log('Novelty Grace Period: ', scrapedDesignData.noveltyGracePeriod.trim());
+      console.log(
+        'Grant Validity Maintenance: ',
+        scrapedDesignData.grantValidityMaintenance.trim(),
+      );
+      console.log(
+        'Duration of the Registration Period: ',
+        scrapedDesignData.durationRegistrationPeriod.trim(),
+      );
 
-    if (error) {
-      throw error;
+      // Handle any errors during extraction or insertion
+      if (error) {
+        throw error;
+      }
+    } else {
+      const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
+        page,
+        selectedCountry,
+        selectedConfig,
+      );
+
+      // Add scraped trademark data to the database
+      const { error, data } = await supabase.from('trademark-info').upsert(
+        [
+          {
+            country: selectedCountry,
+            multiple_class_available: scrapedTrademarkData.multipleClass,
+            filing_requirements: scrapedTrademarkData.filingRequirements,
+            examination_publication_opposition:
+              scrapedTrademarkData.examinationPublicationOpposition,
+            grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
+            use_requirement: scrapedTrademarkData.useRequirement,
+            duration_registration_period:
+              selectedCountry === 'Switzerland'
+                ? 'Not applicable'
+                : scrapedTrademarkData.durationRegistrationPeriod,
+            last_time_scraped: new Date(),
+          },
+        ],
+        { onConflict: ['country'] },
+      );
+
+      console.log(error);
+
+      if (error) {
+        throw error;
+      }
+
+      // Log the scraped trademark data
+      console.log('Country: ', selectedCountry);
+      console.log('Multiple Class: ', scrapedTrademarkData.multipleClass.trim());
+      console.log('Filing Requirements: ', scrapedTrademarkData.filingRequirements.trim());
+      console.log(
+        'Examination/Publication/Opposition Info: ',
+        scrapedTrademarkData.examinationPublicationOpposition.trim(),
+      );
+      console.log(
+        'Grant/Validity/Renewal Info: ',
+        scrapedTrademarkData.grantValidityRenewal.trim(),
+      );
+      console.log('Use Requirement: ', scrapedTrademarkData.useRequirement.trim());
+      selectedCountry === 'Switzerland'
+        ? console.log('Duration of the registration period: Not applicable')
+        : console.log(
+            'Duration of the registration period: ',
+            scrapedTrademarkData.durationRegistrationPeriod.trim(),
+          );
     }
-
-    // Log the scraped data
-
-    console.log('Country: ', selectedCountry);
-    console.log('Multiple Class: ', scrapedTrademarkData.multipleClass.trim());
-    console.log('Filing Requirements: ', scrapedTrademarkData.filingRequirements.trim());
-    console.log(
-      'Examination/Publication/Opposition Info: ',
-      scrapedTrademarkData.examinationPublicationOpposition.trim(),
-    );
-    console.log('Grant/Validity/Renewal Info: ', scrapedTrademarkData.grantValidityRenewal.trim());
-    console.log('Use Requirement: ', scrapedTrademarkData.useRequirement.trim());
-    selectedCountry === 'Switzerland'
-      ? console.log('Duration of the registration period: Not applicable')
-      : console.log(
-          'Duration of the registration period: ',
-          scrapedTrademarkData.durationRegistrationPeriod.trim(),
-        );
   } catch (error) {
     console.error('Error while scraping: ', error);
   } finally {

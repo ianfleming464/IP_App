@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const configHandler = require('../configHandler');
-const scraperLogic = require('../scraperLogic');
+const scraperLogicTrademark = require('../scraperLogicTrademark');
+const scraperLogicIndustrialDesign = require('../scraperLogicIndustrialDesign');
 const { supabase } = require('../index');
 
 async function scraper() {
@@ -8,8 +9,8 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'USA'; // target country
-  const selectedIPType = 'industrial design'; // design or trademark
+  const selectedCountry = 'Switzerland'; // target country
+  const selectedIPType = 'trademark'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
   const selectedConfig = configHandler.findCountryConfig(selectedCountry);
@@ -29,14 +30,13 @@ async function scraper() {
 
   try {
     if (selectedIPType === 'industrial design') {
-      const scrapedDesignData = await scraperLogic.scrapeIndustrialDesignData(
+      const scrapedDesignData = await scraperLogicIndustrialDesign.scrapeIndustrialDesignData(
         page,
         selectedCountry,
         selectedConfig,
       );
 
       // DESIGN LOGIC **********************************************************************************************************************
-      // ***********************************************************************************************************************************
 
       // Add scraped design data to the database
       // const { error, data } = await supabase.from('design-info').upsert(
@@ -70,14 +70,14 @@ async function scraper() {
         scrapedDesignData.durationRegistrationPeriod.trim(),
       );
     } else {
-      const scrapedTrademarkData = await scraperLogic.scrapeTrademarkData(
+      const scrapedTrademarkData = await scraperLogicTrademark.scrapeTrademarkData(
         page,
         selectedCountry,
         selectedConfig,
       );
 
       // TRADEMARK LOGIC *******************************************************************************************************************
-      // ***********************************************************************************************************************************
+
       // Add scraped trademark data to the database
       // const { error, data } = await supabase.from('trademark-info').upsert(
       //   [

@@ -8,7 +8,7 @@ const countries = [
     name: 'USA',
     trademarkUrl: 'https://www.ip-coster.com/IPGuides/trademark-us',
     industrialDesignUrl: 'https://www.ip-coster.com/IPGuides/industrial-design-us',
-    xPaths: {
+    specificTrademarkXPaths: {
       examinationPublicationOpposition:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
       grantValidityRenewal:
@@ -17,6 +17,8 @@ const countries = [
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[12]/span',
       durationRegistrationPeriod:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[11]/span',
+    },
+    specificIndustrialDesignXPaths: {
       examination: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
     },
   },
@@ -29,7 +31,7 @@ const countries = [
     name: 'Switzerland',
     trademarkUrl: 'https://www.ip-coster.com/IPGuides/trademark-switzerland',
     industrialDesignUrl: 'https://www.ip-coster.com/IPGuides/industrial-design-switzerland',
-    xPaths: {
+    specificTrademarkXPaths: {
       filingRequirements:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
       useRequirement: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
@@ -39,7 +41,7 @@ const countries = [
     name: 'United Kingdom',
     trademarkUrl: 'https://www.ip-coster.com/IPGuides/trademark-united-kingdom',
     industrialDesignUrl: 'https://www.ip-coster.com/IPGuides/industrial-design-united-kingdom',
-    xPaths: {
+    specificTrademarkXPaths: {
       examinationPublicationOpposition:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[7]/span',
       grantValidityRenewal:

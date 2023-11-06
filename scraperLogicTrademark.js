@@ -24,24 +24,24 @@ async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
       '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]',
   };
 
-  const trademarkXPaths = { ...defaultTrademarkXPaths, ...(selectedConfig.xPaths || {}) }; // merging the default xpaths with the country-specific xpaths
+  const trademarkXPaths = {
+    ...defaultTrademarkXPaths,
+    ...(selectedConfig.specificTrademarkXPaths || {}),
+  }; // merging the default xpaths with the country-specific xpaths
 
   // extract multipleClass
-
   scrapedTrademarkData.multipleClass = await dataExtractionHandler.extractTextFromXPath(
     page,
     trademarkXPaths.multipleClass,
   );
 
   // extract filingRequirements
-
   scrapedTrademarkData.filingRequirements = await dataExtractionHandler.extractTextFromXPath(
     page,
     trademarkXPaths.filingRequirements,
   );
 
   // extract examinationPublicationOpposition
-
   scrapedTrademarkData.examinationPublicationOpposition =
     await dataExtractionHandler.extractTextFromXPath(
       page,
@@ -49,21 +49,18 @@ async function scrapeTrademarkData(page, selectedCountry, selectedConfig) {
     );
 
   // extract grantValidityRenewal
-
   scrapedTrademarkData.grantValidityRenewal = await dataExtractionHandler.extractTextFromXPath(
     page,
     trademarkXPaths.grantValidityRenewal,
   );
 
   // extract useRequirement
-
   scrapedTrademarkData.useRequirement = await dataExtractionHandler.extractTextFromXPath(
     page,
     trademarkXPaths.useRequirement,
   );
 
   // extract durationRegistrationPeriod
-
   scrapedTrademarkData.durationRegistrationPeriod =
     await dataExtractionHandler.extractTextFromXPath(
       page,

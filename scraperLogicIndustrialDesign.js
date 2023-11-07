@@ -25,40 +25,40 @@ async function scrapeIndustrialDesignData(page, selectedCountry, selectedConfig)
 
   const industrialDesignXPaths = {
     ...defaultIndustrialDesignXPaths,
-    ...(selectedConfig.xPaths || {}),
+    ...(selectedConfig.specificIndustrialDesignXPaths || {}),
   }; // merging the default xpaths with the country-specific xpaths
 
   // Extract data using default XPaths
   scrapedIndustrialDesignData.multipleDesigns = await dataExtractionHandler.extractTextFromXPath(
     page,
-    defaultIndustrialDesignXPaths.multipleDesigns,
+    industrialDesignXPaths.multipleDesigns,
   );
 
   scrapedIndustrialDesignData.filingRequirements = await dataExtractionHandler.extractTextFromXPath(
     page,
-    defaultIndustrialDesignXPaths.filingRequirements,
+    industrialDesignXPaths.filingRequirements,
   );
 
   scrapedIndustrialDesignData.examination = await dataExtractionHandler.extractTextFromXPath(
     page,
-    defaultIndustrialDesignXPaths.examination,
+    industrialDesignXPaths.examination,
   );
 
   scrapedIndustrialDesignData.noveltyGracePeriod = await dataExtractionHandler.extractTextFromXPath(
     page,
-    defaultIndustrialDesignXPaths.noveltyGracePeriod,
+    industrialDesignXPaths.noveltyGracePeriod,
   );
 
   scrapedIndustrialDesignData.grantValidityMaintenance =
     await dataExtractionHandler.extractTextFromXPath(
       page,
-      defaultIndustrialDesignXPaths.grantValidityMaintenance,
+      industrialDesignXPaths.grantValidityMaintenance,
     );
 
   scrapedIndustrialDesignData.durationRegistrationPeriod =
     await dataExtractionHandler.extractTextFromXPath(
       page,
-      defaultIndustrialDesignXPaths.durationRegistrationPeriod,
+      industrialDesignXPaths.durationRegistrationPeriod,
     );
 
   return scrapedIndustrialDesignData;

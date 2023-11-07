@@ -33,6 +33,17 @@ const countries = [
     name: 'Canada',
     trademarkUrl: 'https://www.ip-coster.com/IPGuides/trademark-canada',
     industrialDesignUrl: 'https://www.ip-coster.com/IPGuides/industrial-design-canada',
+    specificIndustrialDesignXPaths: {
+      filingRequirements:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
+      examination: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
+      noveltyGracePeriod:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]/span',
+      grantValidityMaintenance:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[10]',
+      durationRegistrationPeriod:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[12]/span',
+    },
   },
   {
     name: 'Switzerland',

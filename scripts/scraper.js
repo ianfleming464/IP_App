@@ -135,3 +135,6 @@ async function scraper() {
 }
 
 scraper();
+
+// TO DO: now it's time to add the scraped data to the database
+// TO DO: add a delay between requests to avoid overloading the server?

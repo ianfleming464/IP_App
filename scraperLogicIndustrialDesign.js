@@ -28,22 +28,25 @@ async function scrapeIndustrialDesignData(page, selectedCountry, selectedConfig)
     ...(selectedConfig.specificIndustrialDesignXPaths || {}),
   }; // merging the default xpaths with the country-specific xpaths
 
-  // Extract data using default XPaths
+  // extract multipleDesigns
   scrapedIndustrialDesignData.multipleDesigns = await dataExtractionHandler.extractTextFromXPath(
     page,
     industrialDesignXPaths.multipleDesigns,
   );
 
+  // extract filingRequirements
   scrapedIndustrialDesignData.filingRequirements = await dataExtractionHandler.extractTextFromXPath(
     page,
     industrialDesignXPaths.filingRequirements,
   );
 
+  // extract examination
   scrapedIndustrialDesignData.examination = await dataExtractionHandler.extractTextFromXPath(
     page,
     industrialDesignXPaths.examination,
   );
 
+  // extract noveltyGracePeriod
   scrapedIndustrialDesignData.noveltyGracePeriod = await dataExtractionHandler.extractTextFromXPath(
     page,
     industrialDesignXPaths.noveltyGracePeriod,
@@ -55,6 +58,7 @@ async function scrapeIndustrialDesignData(page, selectedCountry, selectedConfig)
       industrialDesignXPaths.grantValidityMaintenance,
     );
 
+  // extract durationRegistrationPeriod
   scrapedIndustrialDesignData.durationRegistrationPeriod =
     await dataExtractionHandler.extractTextFromXPath(
       page,

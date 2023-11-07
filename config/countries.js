@@ -20,7 +20,7 @@ const countries = [
     },
     specificIndustrialDesignXPaths: {
       examination: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
-      filingsRequirements:
+      filingRequirements:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
       noveltyGracePeriod: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[12]',
       grantValidityMaintenance:
@@ -53,6 +53,11 @@ const countries = [
       filingRequirements:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
       useRequirement: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[8]/span',
+    },
+    specificIndustrialDesignXPaths: {
+      multipleDesigns:
+        '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]/span',
+      filingRequirements: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[3]',
     },
   },
   {

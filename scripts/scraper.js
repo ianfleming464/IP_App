@@ -9,7 +9,7 @@ async function scraper() {
   const page = await browser.newPage();
 
   // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
-  const selectedCountry = 'Canada'; // target country
+  const selectedCountry = 'USA'; // target country
   const selectedIPType = 'industrial design'; // design or trademark
 
   // Use the configHandler to find the selected country's configuration
@@ -65,10 +65,12 @@ async function scraper() {
         'Grant Validity Maintenance: ',
         scrapedDesignData.grantValidityMaintenance.trim(),
       );
-      console.log(
-        'Duration of the Registration Period: ',
-        scrapedDesignData.durationRegistrationPeriod.trim(),
-      );
+      selectedCountry === 'Switzerland'
+        ? console.log('Duration of the registration period: Not applicable')
+        : console.log(
+            'Duration of the registration period: ',
+            scrapedDesignData.durationRegistrationPeriod.trim(),
+          );
     } else {
       const scrapedTrademarkData = await scraperLogicTrademark.scrapeTrademarkData(
         page,

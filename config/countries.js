@@ -74,6 +74,9 @@ const countries = [
       durationRegistrationPeriod:
         '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[9]/span',
     },
+    specificIndustrialDesignXPaths: {
+      filingRequirements: '/html/body/form/div[6]/div[3]/div/div[2]/div[1]/div[1]/div/div[3]/p[4]',
+    },
   },
 ];
 

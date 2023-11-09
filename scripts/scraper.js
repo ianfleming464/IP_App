@@ -8,7 +8,7 @@ async function scraper() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  // Specify the country and IP type to scrape - HARD CODED FOR TESTING PURPOSES. These will come from user input in the final version.
+  // Specify the country and IP type to scrape - HARD CODED FOR INDIVIDUAL COUNTRY TESTING PURPOSES. Ultimately, the scraping will either be automated or done at intervals manually (by me), while the user input on the front end will get and display the scraped, saved DB info.
   const selectedCountry = 'Switzerland'; // target country
   const selectedIPType = 'industrial design'; // design or trademark
 
@@ -39,21 +39,23 @@ async function scraper() {
       // DESIGN LOGIC **********************************************************************************************************************
 
       // Add scraped design data to the database
-      // const { error, data } = await supabase.from('design-info').upsert(
-      //   [
-      //     {
-      //       country: selectedCountry,
-      //       multiple_designs: scrapedDesignData.multipleDesigns,
-      //       filing_requirements: scrapedDesignData.filingRequirements,
-      //       examination: scrapedDesignData.examination,
-      //       novelty_grace_period: scrapedDesignData.noveltyGracePeriod,
-      //       grant_validity_maintenance: scrapedDesignData.grantValidityMaintenance,
-      //       duration_registration_period: scrapedDesignData.durationRegistrationPeriod,
-      //       last_time_scraped: new Date(),
-      //     },
-      //   ],
-      //   { onConflict: ['country'] },
-      // );
+      const { error: designError, data: designData } = await supabase
+        .from('industrial-design-info')
+        .upsert(
+          [
+            {
+              country: selectedCountry,
+              multiple_designs_available: scrapedDesignData.multipleDesigns,
+              filing_requirements: scrapedDesignData.filingRequirements,
+              examination: scrapedDesignData.examination,
+              novelty_grace_period: scrapedDesignData.noveltyGracePeriod,
+              grant_validity_maintenance: scrapedDesignData.grantValidityMaintenance,
+              duration_registration_period: scrapedDesignData.durationRegistrationPeriod,
+              last_time_scraped: new Date(),
+            },
+          ],
+          { onConflict: ['country'] },
+        );
 
       // Log the scraped design data
       console.log('Country: ', selectedCountry);
@@ -71,41 +73,43 @@ async function scraper() {
             'Duration of the registration period: ',
             scrapedDesignData.durationRegistrationPeriod.trim(),
           );
+      if (designError) {
+        throw designError;
+      }
     } else {
+      // TRADEMARK LOGIC *******************************************************************************************************************
       const scrapedTrademarkData = await scraperLogicTrademark.scrapeTrademarkData(
         page,
         selectedCountry,
         selectedConfig,
       );
 
-      // TRADEMARK LOGIC *******************************************************************************************************************
-
       // Add scraped trademark data to the database
-      // const { error, data } = await supabase.from('trademark-info').upsert(
-      //   [
-      //     {
-      //       country: selectedCountry,
-      //       multiple_class_available: scrapedTrademarkData.multipleClass,
-      //       filing_requirements: scrapedTrademarkData.filingRequirements,
-      //       examination_publication_opposition:
-      //         scrapedTrademarkData.examinationPublicationOpposition,
-      //       grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
-      //       use_requirement: scrapedTrademarkData.useRequirement,
-      //       duration_registration_period:
-      //         selectedCountry === 'Switzerland'
-      //           ? 'Not applicable'
-      //           : scrapedTrademarkData.durationRegistrationPeriod,
-      //       last_time_scraped: new Date(),
-      //     },
-      //   ],
-      //   { onConflict: ['country'] },
-      // );
+      const { error: trademarkError, data: trademarkData } = await supabase
+        .from('trademark-info')
+        .upsert(
+          [
+            {
+              country: selectedCountry,
+              multiple_class_available: scrapedTrademarkData.multipleClass,
+              filing_requirements: scrapedTrademarkData.filingRequirements,
+              examination_publication_opposition:
+                scrapedTrademarkData.examinationPublicationOpposition,
+              grant_validity_renewal: scrapedTrademarkData.grantValidityRenewal,
+              use_requirement: scrapedTrademarkData.useRequirement,
+              duration_registration_period:
+                selectedCountry === 'Switzerland'
+                  ? 'Not applicable'
+                  : scrapedTrademarkData.durationRegistrationPeriod,
+              last_time_scraped: new Date(),
+            },
+          ],
+          { onConflict: ['country'] },
+        );
 
-      // console.log(error);
-
-      // if (error) {
-      //   throw error;
-      // }
+      if (trademarkError) {
+        throw trademarkError;
+      }
 
       // Log the scraped trademark data
       console.log('Country: ', selectedCountry);
@@ -135,6 +139,3 @@ async function scraper() {
 }
 
 scraper();
-
-// TO DO: now it's time to add the scraped data to the database
-// TO DO: add a delay between requests to avoid overloading the server?

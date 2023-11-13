@@ -148,4 +148,4 @@ async function scraper() {
   await browser.close();
 }
 
-scraper();
+module.exports = scraper;

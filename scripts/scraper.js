@@ -2,18 +2,10 @@ const puppeteer = require('puppeteer');
 const configHandler = require('../configHandler');
 const scraperLogicTrademark = require('../scraperLogicTrademark');
 const scraperLogicIndustrialDesign = require('../scraperLogicIndustrialDesign');
-const { supabase } = require('../index');
 
-async function scraper() {
+async function scraper(supabase) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-
-  // Specify the country and IP type to scrape - HARD CODED FOR INDIVIDUAL COUNTRY TESTING PURPOSES. Ultimately, the scraping will either be automated or done at intervals manually (by me), while the user input on the front end will get and display the scraped, saved DB info.
-  // const selectedCountry = 'Switzerland';
-  // const selectedIPType = 'industrial design';
-
-  // Use the configHandler to find the selected country's configuration
-  // const selectedConfig = configHandler.findCountryConfig(selectedCountry);
 
   // Fetch all countries from configHandler
   const countries = configHandler.countries;
@@ -22,13 +14,19 @@ async function scraper() {
     const selectedConfig = configHandler.findCountryConfig(countryData.name);
 
     if (!selectedConfig) {
-      console.log(`Selected country ${countryData.name}not found in the configuration.`);
-      // await browser.close();
-      // return;
+      console.log(`Selected country ${countryData.name} not found in the configuration.`);
       continue;
     }
+
     for (const selectedIPType of ['industrial design', 'trademark']) {
       // Navigate to the selected URL
+      console.log(
+        'Navigating to URL: ',
+        selectedIPType === 'trademark'
+          ? selectedConfig.trademarkUrl
+          : selectedConfig.industrialDesignUrl,
+      );
+
       await page.goto(
         selectedIPType === 'trademark'
           ? selectedConfig.trademarkUrl
@@ -37,6 +35,7 @@ async function scraper() {
 
       try {
         if (selectedIPType === 'industrial design') {
+          console.log('Scraping industrial design data for country: ', countryData.name);
           const scrapedDesignData = await scraperLogicIndustrialDesign.scrapeIndustrialDesignData(
             page,
             countryData.name,

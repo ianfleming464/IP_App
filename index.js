@@ -7,14 +7,14 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-// Create a single supabase client for interacting with your database
+// Create a single Supabase client for interacting with your database
 const supabase = createClient(process.env.PROJECT_URL, process.env.SERVICE_KEY);
 
 // Define route for scraping
 app.get('/scrape', async (req, res) => {
   try {
-    await scraper();
-    res.statue(200).send('Scraping completed successfully!');
+    await scraper(supabase); // Pass supabase as an argument to the scraper function
+    res.status(200).send('Scraping completed successfully!');
   } catch (error) {
     console.error('Error while scraping:', error);
     res.status(500).send('Internal server error');
@@ -26,6 +26,4 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-module.exports = {
-  supabase,
-};
+module.exports = { supabase }; // Export supabase for potential future use

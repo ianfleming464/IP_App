@@ -1,6 +1,7 @@
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const scraper = require('./scripts/scraper');
+const testScraper = require('./testScraper'); // Import the testScraper function
 
 require('dotenv').config();
 
@@ -18,6 +19,19 @@ app.get('/scrape', async (req, res) => {
   } catch (error) {
     console.error('Error while scraping:', error);
     res.status(500).send('Internal server error');
+  }
+});
+
+// Define route for testing scraping without saving to the database
+app.get('/test', async (req, res) => {
+  try {
+    // Execute the testScraper function
+    await testScraper();
+
+    res.status(200).send('Test scraping completed successfully!');
+  } catch (error) {
+    console.error('Error during test scraping:', error);
+    res.status(500).send('Internal server error during test scraping');
   }
 });
 

@@ -1,12 +1,21 @@
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const scraper = require('./scripts/scraper');
-const testScraper = require('./testScraper'); // Import the testScraper function
+const testScraper = require('./testScraper');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 
 require('dotenv').config();
 
 const app = express();
 const port = 3000;
+
+// Create a write stream (in append mode) for Morgan to log to a file
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
+// Use Morgan for logging HTTP requests to the console and a file
+app.use(morgan('combined', { stream: accessLogStream }));
 
 // Create a single Supabase client for interacting with your database
 const supabase = createClient(process.env.PROJECT_URL, process.env.SERVICE_KEY);
